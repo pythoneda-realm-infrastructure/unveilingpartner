@@ -56,6 +56,33 @@
         "type": "github"
       }
     },
+    "pythoneda-infrastructure-base": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixos": [
+          "nixos"
+        ],
+        "pythoneda-base": [
+          "pythoneda-base"
+        ]
+      },
+      "locked": {
+        "lastModified": 1687445196,
+        "narHash": "sha256-lcaaY2PJujZqL44zBKE5idIMF0NiTg1QM5nL1tMX1nM=",
+        "owner": "pythoneda-infrastructure",
+        "repo": "base",
+        "rev": "826a4c5ec7b7ec7ee14971d318e224e03d696be5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pythoneda-infrastructure",
+        "ref": "0.0.1a11",
+        "repo": "base",
+        "type": "github"
+      }
+    },
     "pythoneda-realm-unveilingpartner": {
       "inputs": {
         "flake-utils": [
@@ -88,6 +115,7 @@
         "flake-utils": "flake-utils",
         "nixos": "nixos",
         "pythoneda-base": "pythoneda-base",
+        "pythoneda-infrastructure-base": "pythoneda-infrastructure-base",
         "pythoneda-realm-unveilingpartner": "pythoneda-realm-unveilingpartner"
       }
     }

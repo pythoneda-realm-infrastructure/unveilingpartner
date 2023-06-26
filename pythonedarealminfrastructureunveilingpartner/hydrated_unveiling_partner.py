@@ -51,4 +51,4 @@ class HydratedUnveilingPartner(UnveilingPartner):
         :return: The singleton instance.
         :rtype: UnveilingPartner
         """
-        return UnveilingPartner(cls._master_password)
+        return HydratedUnveilingPartner(cls._master_password)
