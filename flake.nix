@@ -10,7 +10,7 @@
       inputs.flake-utils.follows = "flake-utils";
     };
     pythoneda-realm-unveilingpartner = {
-      url = "github:pythoneda-realm/unveilingpartner/0.0.1a1";
+      url = "github:pythoneda-realm/unveilingpartner/0.0.1a2";
       inputs.nixos.follows = "nixos";
       inputs.flake-utils.follows = "flake-utils";
       inputs.pythoneda-base.follows = "pythoneda-base";
