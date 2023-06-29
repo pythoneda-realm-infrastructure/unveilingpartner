@@ -35,6 +35,15 @@ class HydratedUnveilingPartner(UnveilingPartner):
 
     _master_password = None
 
+    def __init__(self, masterPassword:str=None):
+        """
+        Creates a new HydratedUnveilingPartner instance.
+        :param masterPassword: The master password.
+        :type masterPassword: str
+        """
+        super().__init__(masterPassword)
+
+
     @classmethod
     def set_master_password(cls, passwd: str):
         """

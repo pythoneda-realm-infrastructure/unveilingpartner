@@ -56,10 +56,13 @@
 
             nativeBuildInputs = with python.pkgs; [ pip pkgs.jq poetry-core ];
             propagatedBuildInputs = with python.pkgs; [
+              #              dbus-next
+              #              grpcio
               oauth2
               pythoneda-base
               pythoneda-infrastructure-base
               pythoneda-realm-unveilingpartner
+              #              requests
               requests-oauthlib
             ];
 
