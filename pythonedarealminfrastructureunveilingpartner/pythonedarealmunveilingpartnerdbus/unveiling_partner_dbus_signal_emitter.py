@@ -19,12 +19,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from pythoneda.event import Event
+from pythonedaartifacteventgittagging.tag_credentials_provided import TagCredentialsProvided
 from pythonedainfrastructure.pythonedadbus.dbus_signal_emitter import DbusSignalEmitter
 
 import asyncio
-import dbus
 from dbus_next.aio import MessageBus
 from dbus_next import BusType, Message, MessageType
+
+from typing import Dict
 
 class UnveilingPartnerDbusSignalEmitter(DbusSignalEmitter):
 

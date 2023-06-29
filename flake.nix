@@ -59,6 +59,7 @@
               dbus-next
               grpcio
               oauth2
+              pythoneda-artifact-event-git-tagging
               pythoneda-base
               pythoneda-infrastructure-base
               pythoneda-realm-unveilingpartner

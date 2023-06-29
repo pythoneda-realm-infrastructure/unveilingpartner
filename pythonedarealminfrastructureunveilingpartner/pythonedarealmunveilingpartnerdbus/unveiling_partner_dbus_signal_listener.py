@@ -19,11 +19,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from pythoneda.event import Event
+from pythonedaartifacteventgittagging.tag_credentials_requested import TagCredentialsRequested
 from pythonedainfrastructure.pythonedadbus.dbus_signal_listener import DbusSignalListener
-
-from pythonedaartifactgittagging.tag_credentials_requested import TagCredentialsRequested
+from pythonedarealminfrastructureunveilingpartner.pythonedarealmunveilingpartnerdbus.dbus_tag_credentials_requested import DbusTagCredentialsRequested
 
 from dbus_next import BusType
+
+from typing import Dict
 
 class UnveilingPartnerDbusSignalListener(DbusSignalListener):
 
@@ -46,14 +48,16 @@ class UnveilingPartnerDbusSignalListener(DbusSignalListener):
         """
         super().__init__()
 
-    def signal_receivers(self) -> Dict:
+    def signal_receivers(self, app) -> Dict:
         """
         Retrieves the configured signal receivers.
-        :return: A dictionary with the signal name as key, and the tuple bus-type, dbus-interface and function handler as value.
+        :param app: The PythonEDA instance.
+        :type app: PythonEDA from pythonedaapplication.pythoneda
+        :return: A dictionary with the signal name as key, and the tuple interface, bus-type and function handler as value.
         :rtype: Dict
         """
         return {
-            "TagCredentialsProvided": [ BusType.SYSTEM, "pythoneda.artifact.git-tagging", listenTagCredentialsRequested ]
+            "TagCredentialsRequested": [ DbusTagCredentialsRequested, BusType.SYSTEM, self.listenTagCredentialsRequested ]
         }
 
 
