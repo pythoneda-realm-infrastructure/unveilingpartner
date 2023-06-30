@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pythoneda-realm-infrastructure-unveilingpartner"
-version = "0.0.1a3"
+version = "0.0.1a2"
 description = "Infrastructure layer for UnveilingPartner's PythonEDA realm"
 authors = ["rydnr <github@acm-sl.org>"]
 readme = "README.md"
@@ -13,6 +13,7 @@ grpcio = "^1.41.0"
 oauth2 = "^1.9.0.post1"
 python = "^3.8"
 pythoneda-base = "^0.0.1a15"
+pythoneda-artifact-event-git-tagging = "^0.0.1a1"
 pythoneda-infrastructure-base = "^0.0.1a11"
 pythoneda-realm-unveilingpartner = "^0.0.1a2"
 requests = "^2.28.1"

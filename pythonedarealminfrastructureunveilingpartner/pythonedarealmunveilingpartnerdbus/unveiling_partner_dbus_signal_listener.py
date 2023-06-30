@@ -67,4 +67,4 @@ class UnveilingPartnerDbusSignalListener(DbusSignalListener):
         :param event: The event.
         :type event: TagCredentialsRequested from pythonedaartifactgittagging.tag_credentials_requested
         """
-        print(f'Recceived signal! args: {args}, kwargs: {kwargs}')
+        print(f'Recceived TagCredentialsRequested signal! args: {args}, kwargs: {kwargs}')

@@ -9,6 +9,12 @@
       inputs.nixos.follows = "nixos";
       inputs.flake-utils.follows = "flake-utils";
     };
+    pythoneda-artifact-event-git-tagging = {
+      url = "github:pythoneda-artifact-event/git-tagging/0.0.1a1";
+      inputs.nixos.follows = "nixos";
+      inputs.flake-utils.follows = "flake-utils";
+      inputs.pythoneda-base.follows = "pythoneda-base";
+    };
     pythoneda-realm-unveilingpartner = {
       url = "github:pythoneda-realm/unveilingpartner/0.0.1a2";
       inputs.nixos.follows = "nixos";
@@ -36,8 +42,9 @@
         nixpkgsRelease = "nixos-23.05";
         shared = import ./nix/devShells.nix;
         pythoneda-realm-infrastructure-unveilingpartner-for = { version
-          , pythoneda-base, pythoneda-realm-unveilingpartner
-          , pythoneda-infrastructure-base, python }:
+          , pythoneda-base, pythoneda-artifact-event-git-tagging
+          , pythoneda-realm-unveilingpartner, pythoneda-infrastructure-base
+          , python }:
           let
             pname = "pythoneda-realm-infrastructure-unveilingpartner";
             pythonVersionParts = builtins.splitVersion python.version;
@@ -76,6 +83,7 @@
               python -m venv .env
               source .env/bin/activate
               pip install ${pythoneda-base}/dist/pythoneda_base-${pythoneda-base.version}-py3-none-any.whl
+              pip install ${pythoneda-artifact-event-git-tagging}/dist/pythoneda_artifact_event_git_tagging-${pythoneda-artifact-event-git-tagging.version}-py3-none-any.whl
               pip install ${pythoneda-infrastructure-base}/dist/pythoneda_infrastructure_base-${pythoneda-infrastructure-base.version}-py3-none-any.whl
               pip install ${pythoneda-realm-unveilingpartner}/dist/pythoneda_realm_unveilingpartner-${pythoneda-realm-unveilingpartner.version}-py3-none-any.whl
               rm -rf .env
@@ -91,30 +99,36 @@
               inherit description license homepage maintainers;
             };
           };
-        pythoneda-realm-infrastructure-unveilingpartner-0_0_1a3-for =
-          { pythoneda-base, pythoneda-infrastructure-base
-          , pythoneda-realm-unveilingpartner, python }:
+        pythoneda-realm-infrastructure-unveilingpartner-0_0_1a2-for =
+          { pythoneda-base, pythoneda-artifact-event-git-tagging
+          , pythoneda-infrastructure-base, pythoneda-realm-unveilingpartner
+          , python }:
           pythoneda-realm-infrastructure-unveilingpartner-for {
-            version = "0.0.1a3";
-            inherit pythoneda-base pythoneda-infrastructure-base
-              pythoneda-realm-unveilingpartner python;
+            version = "0.0.1a2";
+            inherit pythoneda-base pythoneda-artifact-event-git-tagging
+              pythoneda-infrastructure-base pythoneda-realm-unveilingpartner
+              python;
           };
       in rec {
         packages = rec {
-          pythoneda-realm-infrastructure-unveilingpartner-0_0_1a3-python39 =
-            pythoneda-realm-infrastructure-unveilingpartner-0_0_1a3-for {
+          pythoneda-realm-infrastructure-unveilingpartner-0_0_1a2-python39 =
+            pythoneda-realm-infrastructure-unveilingpartner-0_0_1a2-for {
               pythoneda-base =
                 pythoneda-base.packages.${system}.pythoneda-base-latest-python39;
+              pythoneda-artifact-event-git-tagging =
+                pythoneda-artifact-event-git-tagging.packages.${system}.pythoneda-artifact-event-git-tagging-latest-python39;
               pythoneda-infrastructure-base =
                 pythoneda-infrastructure-base.packages.${system}.pythoneda-infrastructure-base-latest-python39;
               pythoneda-realm-unveilingpartner =
                 pythoneda-realm-unveilingpartner.packages.${system}.pythoneda-realm-unveilingpartner-latest-python39;
               python = pkgs.python39;
             };
-          pythoneda-realm-infrastructure-unveilingpartner-0_0_1a3-python310 =
-            pythoneda-realm-infrastructure-unveilingpartner-0_0_1a3-for {
+          pythoneda-realm-infrastructure-unveilingpartner-0_0_1a2-python310 =
+            pythoneda-realm-infrastructure-unveilingpartner-0_0_1a2-for {
               pythoneda-base =
                 pythoneda-base.packages.${system}.pythoneda-base-latest-python310;
+              pythoneda-artifact-event-git-tagging =
+                pythoneda-artifact-event-git-tagging.packages.${system}.pythoneda-artifact-event-git-tagging-latest-python310;
               pythoneda-infrastructure-base =
                 pythoneda-infrastructure-base.packages.${system}.pythoneda-infrastructure-base-latest-python310;
               pythoneda-realm-unveilingpartner =
@@ -122,37 +136,37 @@
               python = pkgs.python310;
             };
           pythoneda-realm-infrastructure-unveilingpartner-latest-python39 =
-            pythoneda-realm-infrastructure-unveilingpartner-0_0_1a3-python39;
+            pythoneda-realm-infrastructure-unveilingpartner-0_0_1a2-python39;
           pythoneda-realm-infrastructure-unveilingpartner-latest-python310 =
-            pythoneda-realm-infrastructure-unveilingpartner-0_0_1a3-python310;
+            pythoneda-realm-infrastructure-unveilingpartner-0_0_1a2-python310;
           pythoneda-realm-infrastructure-unveilingpartner-latest =
             pythoneda-realm-infrastructure-unveilingpartner-latest-python310;
           default = pythoneda-realm-infrastructure-unveilingpartner-latest;
         };
         defaultPackage = packages.default;
         devShells = rec {
-          pythoneda-realm-infrastructure-unveilingpartner-0_0_1a3-python39 =
+          pythoneda-realm-infrastructure-unveilingpartner-0_0_1a2-python39 =
             shared.devShell-for {
               package =
-                packages.pythoneda-realm-infrastructure-unveilingpartner-0_0_1a3-python39;
+                packages.pythoneda-realm-infrastructure-unveilingpartner-0_0_1a2-python39;
               pythoneda-base =
                 pythoneda-base.packages.${system}.pythoneda-base-latest-python39;
               python = pkgs.python39;
               inherit pkgs nixpkgsRelease;
             };
-          pythoneda-realm-infrastructure-unveilingpartner-0_0_1a3-python310 =
+          pythoneda-realm-infrastructure-unveilingpartner-0_0_1a2-python310 =
             shared.devShell-for {
               package =
-                packages.pythoneda-realm-infrastructure-unveilingpartner-0_0_1a3-python310;
+                packages.pythoneda-realm-infrastructure-unveilingpartner-0_0_1a2-python310;
               pythoneda-base =
                 pythoneda-base.packages.${system}.pythoneda-base-latest-python310;
               python = pkgs.python310;
               inherit pkgs nixpkgsRelease;
             };
           pythoneda-realm-infrastructure-unveilingpartner-latest-python39 =
-            pythoneda-realm-infrastructure-unveilingpartner-0_0_1a3-python39;
+            pythoneda-realm-infrastructure-unveilingpartner-0_0_1a2-python39;
           pythoneda-realm-infrastructure-unveilingpartner-latest-python310 =
-            pythoneda-realm-infrastructure-unveilingpartner-0_0_1a3-python310;
+            pythoneda-realm-infrastructure-unveilingpartner-0_0_1a2-python310;
           pythoneda-realm-infrastructure-unveilingpartner-latest =
             pythoneda-realm-infrastructure-unveilingpartner-latest-python310;
           default = pythoneda-realm-infrastructure-unveilingpartner-latest;
