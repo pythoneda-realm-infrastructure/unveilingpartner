@@ -35,6 +35,33 @@
     "pythoneda-artifact-event-git-tagging": {
       "inputs": {
         "flake-utils": [
+          "flake-utils"
+        ],
+        "nixos": [
+          "nixos"
+        ],
+        "pythoneda-base": [
+          "pythoneda-base"
+        ]
+      },
+      "locked": {
+        "lastModified": 1687939693,
+        "narHash": "sha256-Tj93uxNc24ZV4+AazbYhRGg00KOvXpE8ZVCXlMOP0X8=",
+        "owner": "pythoneda-artifact-event",
+        "repo": "git-tagging",
+        "rev": "74f5f5bd33e68fc793a110da89b92d12d1625280",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pythoneda-artifact-event",
+        "ref": "0.0.1a1",
+        "repo": "git-tagging",
+        "type": "github"
+      }
+    },
+    "pythoneda-artifact-event-git-tagging_2": {
+      "inputs": {
+        "flake-utils": [
           "pythoneda-realm-unveilingpartner",
           "flake-utils"
         ],
@@ -57,6 +84,36 @@
       },
       "original": {
         "owner": "pythoneda-artifact-event",
+        "ref": "0.0.1a1",
+        "repo": "git-tagging",
+        "type": "github"
+      }
+    },
+    "pythoneda-artifact-event-infrastructure-git-tagging": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixos": [
+          "nixos"
+        ],
+        "pythoneda-artifact-event-git-tagging": [
+          "pythoneda-artifact-event-git-tagging"
+        ],
+        "pythoneda-base": [
+          "pythoneda-base"
+        ]
+      },
+      "locked": {
+        "lastModified": 1688198418,
+        "narHash": "sha256-Y0bDi2flhdEw2waPaY1+O1TWTbrLL9mmZrYKmnr0HLA=",
+        "owner": "pythoneda-artifact-event-infrastructure",
+        "repo": "git-tagging",
+        "rev": "6b5f89c58e1bdc0e9c8bddbbf331c5b3454d306f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pythoneda-artifact-event-infrastructure",
         "ref": "0.0.1a1",
         "repo": "git-tagging",
         "type": "github"
@@ -121,7 +178,7 @@
         "nixos": [
           "nixos"
         ],
-        "pythoneda-artifact-event-git-tagging": "pythoneda-artifact-event-git-tagging",
+        "pythoneda-artifact-event-git-tagging": "pythoneda-artifact-event-git-tagging_2",
         "pythoneda-base": [
           "pythoneda-base"
         ]
@@ -145,6 +202,8 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "nixos": "nixos",
+        "pythoneda-artifact-event-git-tagging": "pythoneda-artifact-event-git-tagging",
+        "pythoneda-artifact-event-infrastructure-git-tagging": "pythoneda-artifact-event-infrastructure-git-tagging",
         "pythoneda-base": "pythoneda-base",
         "pythoneda-infrastructure-base": "pythoneda-infrastructure-base",
         "pythoneda-realm-unveilingpartner": "pythoneda-realm-unveilingpartner"
