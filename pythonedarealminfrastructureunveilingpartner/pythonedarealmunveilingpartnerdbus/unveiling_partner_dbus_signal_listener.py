@@ -20,8 +20,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from pythoneda.event import Event
 from pythonedaartifacteventgittagging.tag_credentials_requested import TagCredentialsRequested
+from pythonedaartifacteventinfrastructuregittagging.pythonedaartifacteventgittaggingdbus.dbus_tag_credentials_requested import DbusTagCredentialsRequested
 from pythonedainfrastructure.pythonedadbus.dbus_signal_listener import DbusSignalListener
-from pythonedarealminfrastructureunveilingpartner.pythonedarealmunveilingpartnerdbus.dbus_tag_credentials_requested import DbusTagCredentialsRequested
 
 from dbus_next import BusType
 
