@@ -23,7 +23,7 @@ from pythonedaartifacteventgittagging.tag_credentials_requested import TagCreden
 from pythonedaartifacteventinfrastructuregittagging.pythonedaartifacteventgittaggingdbus.dbus_tag_credentials_requested import DbusTagCredentialsRequested
 from pythonedainfrastructure.pythonedadbus.dbus_signal_listener import DbusSignalListener
 
-from dbus_next import BusType
+from dbus_next import BusType, Message
 
 from typing import Dict
 
@@ -53,18 +53,32 @@ class UnveilingPartnerDbusSignalListener(DbusSignalListener):
         Retrieves the configured signal receivers.
         :param app: The PythonEDA instance.
         :type app: PythonEDA from pythonedaapplication.pythoneda
-        :return: A dictionary with the signal name as key, and the tuple interface, bus-type and function handler as value.
+        :return: A dictionary with the signal name as key, and the tuple interface and bus type as the value.
         :rtype: Dict
         """
-        return {
-            "TagCredentialsRequested": [ DbusTagCredentialsRequested, BusType.SYSTEM, self.listenTagCredentialsRequested ]
-        }
+        result = {}
+        key = self.fqdn_key(TagCredentialsRequested)
+        result[key] = [
+            DbusTagCredentialsRequested, BusType.SYSTEM
+        ]
+        return result
 
+    def parse_TagCredentialsRequested(self, message: Message) -> TagCredentialsRequested:
+        """
+        Parses given d-bus message containing a TagCredentialsRequested event.
+        :param message: The message.
+        :type message: dbus_next.Message
+        :return: The TagCredentialsRequested event.
+        :rtype: pythonedaartifacteventgittagging.tag_credentials_requested.TagCredentialsRequested
+        """
+        repository_url, branch = message.body
+        return TagCredentialsRequested(repository_url, branch)
 
-    def listenTagCredentialsRequested(self, *args, **kwargs):
+    async def listen_TagCredentialsRequested(self, event: TagCredentialsRequested):
         """
         Gets notified when a signal for a TagCredentialsRequested event occurs.
         :param event: The event.
-        :type event: TagCredentialsRequested from pythonedaartifactgittagging.tag_credentials_requested
+        :type event: pythonedaartifacteventgittagging.tag_credentials_requested.TagCredentialsRequested
         """
-        print(f'Recceived TagCredentialsRequested signal! args: {args}, kwargs: {kwargs}')
+        print(f'Received TagCredentialsRequested ! {event}')
+        await self.app.accept(event)
