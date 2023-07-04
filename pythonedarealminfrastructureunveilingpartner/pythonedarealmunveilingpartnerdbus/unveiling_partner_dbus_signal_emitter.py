@@ -20,13 +20,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from pythoneda.event import Event
 from pythonedaartifacteventgittagging.tag_credentials_provided import TagCredentialsProvided
+from pythonedaartifacteventinfrastructuregittagging.pythonedaartifacteventgittaggingdbus.dbus_tag_credentials_provided import DbusTagCredentialsProvided
 from pythonedainfrastructure.pythonedadbus.dbus_signal_emitter import DbusSignalEmitter
 
 import asyncio
 from dbus_next.aio import MessageBus
 from dbus_next import BusType, Message, MessageType
 
-from typing import Dict
+from typing import Dict, List
 
 class UnveilingPartnerDbusSignalEmitter(DbusSignalEmitter):
 
@@ -40,7 +41,7 @@ class UnveilingPartnerDbusSignalEmitter(DbusSignalEmitter):
         - Emit domain events as d-bus signals on behalf of UnveilingPartner.
 
     Collaborators:
-        - PythonEDAApplication: Requests emitting events.
+        - PythonEDA: Requests emitting events.
     """
     def __init__(self):
         """
@@ -48,54 +49,43 @@ class UnveilingPartnerDbusSignalEmitter(DbusSignalEmitter):
         """
         super().__init__()
 
-    def transformTagCredentialsProvided(self, event: TagCredentialsProvided) -> str:
+    def transform_TagCredentialsProvided(self, event: TagCredentialsProvided) -> List[str]:
         """
-        Transforms given event to string.
+        Transforms given event to signal parameters.
         :param event: The event to transform.
-        :type event: TagCredentialsProvided from pythonedaartifactgittagging.tag_credentials_provided
-        :return: The serialized version of the event.
+        :type event: pythonedaartifactgittagging.tag_credentials_provided.TagCredentialsProvided
+        :return: The event information.
+        :rtype: List[str]
+        """
+        return [ str(event.request_id), event.repository_url, event.branch, event.ssh_username, event.private_key_file.get(), event.private_key_passphrase.get() ]
+
+    def signature_for_TagCredentialsProvided(self, event: TagCredentialsProvided) -> str:
+        """
+        Retrieves the signature for the parameters of given event.
+        :param event: The domain event.
+        :type event: pythonedaartifacteventgittagging.tag_credentials_provided.TagCredentialsProvided
+        :return: The signature.
         :rtype: str
         """
-        return str(event)
+        return 'ssssss'
 
     def emitters(self) -> Dict:
         """
         Retrieves the configured event emitters.
         :return: A dictionary with the event class name as key, and a dictionary as value. Such dictionary must include the following entries:
-          - "destination": the event destination,
-          - "path": the path,
-          - "interface": the interface,
-          - "member": the signal name,
+          - "interface": the event interface,
+          - "busType": the bus type,
           - "transformer": a function capable of transforming the event into a string.
+          - "signature": a function capable of returning the types of the event parameters.
         :rtype: Dict
         """
-        return {
-            "TagCredentialsProvided": {
-                "destination": "pythoneda.artifact.git-tagging",
-                "path": "/pythoneda/artifact/git-tagging",
-                "interface": "pythoneda.realm.UnveilingPartner",
-                "member": "TagCredentialsProvided",
-                "transformer": transformTagCredentialsProvided
+        result = {}
+        key = self.fqdn_key(TagCredentialsProvided)
+        result[key] = {
+                "interface": DbusTagCredentialsProvided,
+                "busType": BusType.SYSTEM,
+                "transformer": self.transform_TagCredentialsProvided,
+                "signature": self.signature_for_TagCredentialsProvided
             }
-        }
 
-    async def emit(self, event: Event):
-        """
-        Emits given event as d-bus signal.
-        :param event: The domain event to emit.
-        :type event: Event from pythoneda.event
-        """
-        await super().emit(event)
-        emitters = signal_emitters().items()
-
-        if emitters:
-            emitter = emitters.get(event.__class__, None)
-            if emitter:
-                message = Message(
-                    destination = emitter["destination"],
-                    path = emitter["path"],
-                    interface = emitter["interface"],
-                    member = emitter["signal"],
-                    body = emitter["transformer"](event)
-                )
-                await bus.send(message)
+        return result

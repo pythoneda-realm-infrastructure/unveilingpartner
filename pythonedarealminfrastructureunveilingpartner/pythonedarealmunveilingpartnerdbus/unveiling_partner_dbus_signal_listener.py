@@ -39,7 +39,7 @@ class UnveilingPartnerDbusSignalListener(DbusSignalListener):
         - Listen to signals relevant to UnveilingPartner.
 
     Collaborators:
-        - PythonEDAApplication: Receives relevant domain events.
+        - PythonEDA: Receives relevant domain events.
     """
 
     def __init__(self):
@@ -63,7 +63,7 @@ class UnveilingPartnerDbusSignalListener(DbusSignalListener):
         ]
         return result
 
-    def parse_TagCredentialsRequested(self, message: Message) -> TagCredentialsRequested:
+    def parse_pythonedaartifactgittagging_TagCredentialsRequested(self, message: Message) -> TagCredentialsRequested:
         """
         Parses given d-bus message containing a TagCredentialsRequested event.
         :param message: The message.
@@ -74,7 +74,7 @@ class UnveilingPartnerDbusSignalListener(DbusSignalListener):
         repository_url, branch = message.body
         return TagCredentialsRequested(repository_url, branch)
 
-    async def listen_TagCredentialsRequested(self, event: TagCredentialsRequested):
+    async def listen_pythonedaartifactgittagging_TagCredentialsRequested(self, event: TagCredentialsRequested):
         """
         Gets notified when a signal for a TagCredentialsRequested event occurs.
         :param event: The event.
