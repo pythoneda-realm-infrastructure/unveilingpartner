@@ -71,8 +71,7 @@ class UnveilingPartnerDbusSignalListener(DbusSignalListener):
         :return: The TagCredentialsRequested event.
         :rtype: pythonedaartifacteventgittagging.tag_credentials_requested.TagCredentialsRequested
         """
-        repository_url, branch = message.body
-        return TagCredentialsRequested(repository_url, branch)
+        return DbusTagCredentialsRequested.parse_pythonedaartifactgittagging_TagCredentialsRequested(message)
 
     async def listen_pythonedaartifactgittagging_TagCredentialsRequested(self, event: TagCredentialsRequested):
         """

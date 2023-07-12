@@ -18,16 +18,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+from dbus_next import BusType
 from pythoneda.event import Event
+from pythonedaartifacteventchanges.change_staging_requested import ChangeStagingRequested
 from pythonedaartifacteventgittagging.tag_credentials_provided import TagCredentialsProvided
+from pythonedaartifacteventinfrastructurechanges.pythonedaartifacteventchangesdbus.dbus_change_staging_requested import DbusChangeStagingRequested
 from pythonedaartifacteventinfrastructuregittagging.pythonedaartifacteventgittaggingdbus.dbus_tag_credentials_provided import DbusTagCredentialsProvided
 from pythonedainfrastructure.pythonedadbus.dbus_signal_emitter import DbusSignalEmitter
-
-import asyncio
-from dbus_next.aio import MessageBus
-from dbus_next import BusType, Message, MessageType
-
-from typing import Dict, List
+from typing import Dict
 
 class UnveilingPartnerDbusSignalEmitter(DbusSignalEmitter):
 
@@ -41,33 +39,16 @@ class UnveilingPartnerDbusSignalEmitter(DbusSignalEmitter):
         - Emit domain events as d-bus signals on behalf of UnveilingPartner.
 
     Collaborators:
-        - PythonEDA: Requests emitting events.
+        - pythonedaapplication.pythoneda.PythonEDA: Requests emitting events.
+        - pythonedaartifacteventinfrastructurechanges.pythonedaartifacteventchangesdbus.dbus_change_staging_requested.DbusChangeStagingRequested
+        - pythonedaartifacteventinfrastructuregittagging.pythonedaartifacteventgittaggingdbus.dbus_tag_credentials_provided.DbusTagCredentialsProvided
+        -
     """
     def __init__(self):
         """
         Creates a new UnveilingPartnerDbusSignalEmitter instance.
         """
         super().__init__()
-
-    def transform_TagCredentialsProvided(self, event: TagCredentialsProvided) -> List[str]:
-        """
-        Transforms given event to signal parameters.
-        :param event: The event to transform.
-        :type event: pythonedaartifactgittagging.tag_credentials_provided.TagCredentialsProvided
-        :return: The event information.
-        :rtype: List[str]
-        """
-        return [ str(event.request_id), event.repository_url, event.branch, event.ssh_username, event.private_key_file.get(), event.private_key_passphrase.get() ]
-
-    def signature_for_TagCredentialsProvided(self, event: TagCredentialsProvided) -> str:
-        """
-        Retrieves the signature for the parameters of given event.
-        :param event: The domain event.
-        :type event: pythonedaartifacteventgittagging.tag_credentials_provided.TagCredentialsProvided
-        :return: The signature.
-        :rtype: str
-        """
-        return 'ssssss'
 
     def emitters(self) -> Dict:
         """
@@ -84,8 +65,15 @@ class UnveilingPartnerDbusSignalEmitter(DbusSignalEmitter):
         result[key] = {
                 "interface": DbusTagCredentialsProvided,
                 "busType": BusType.SYSTEM,
-                "transformer": self.transform_TagCredentialsProvided,
-                "signature": self.signature_for_TagCredentialsProvided
+                "transformer": DbusTagCredentialsProvided.transform_TagCredentialsProvided,
+                "signature": DbusTagCredentialsProvided.signature_for_TagCredentialsProvided
+            }
+        key = self.fqdn_key(ChangeStagingRequested)
+        result[key] = {
+                "interface": DbusChangeStagingRequested,
+                "busType": BusType.SYSTEM,
+                "transformer": DbusChangeStagingRequested.transform_ChangeStagingRequested,
+                "signature": DbusChangeStagingRequested.signature_for_ChangeStagingRequested
             }
 
         return result
