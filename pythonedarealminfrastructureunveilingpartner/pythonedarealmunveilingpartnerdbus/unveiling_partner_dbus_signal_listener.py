@@ -18,13 +18,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+from dbus_next import BusType, Message
 from pythoneda.event import Event
+from pythonedaartifacteventchanges.change_staging_from_folder_requested import ChangeStagingFromFolderRequested
 from pythonedaartifacteventgittagging.tag_credentials_requested import TagCredentialsRequested
+from pythonedaartifacteventinfrastructurechanges.pythonedaartifacteventchangesdbus.dbus_change_staging_from_folder_requested import DbusChangeStagingFromFolderRequested
 from pythonedaartifacteventinfrastructuregittagging.pythonedaartifacteventgittaggingdbus.dbus_tag_credentials_requested import DbusTagCredentialsRequested
 from pythonedainfrastructure.pythonedadbus.dbus_signal_listener import DbusSignalListener
-
-from dbus_next import BusType, Message
-
 from typing import Dict
 
 class UnveilingPartnerDbusSignalListener(DbusSignalListener):
@@ -39,7 +39,8 @@ class UnveilingPartnerDbusSignalListener(DbusSignalListener):
         - Listen to signals relevant to UnveilingPartner.
 
     Collaborators:
-        - PythonEDA: Receives relevant domain events.
+        - pythonedaapplication.pythoneda.PythonEDA: Receives relevant domain events.
+        - pythonedaartifacteventinfrastructurechanges.pythonedaartifacteventchangesdbus.dbus_change_staging_from_folder_requested.DbusChangeStagingFromFolderRequested
     """
 
     def __init__(self):
@@ -61,6 +62,10 @@ class UnveilingPartnerDbusSignalListener(DbusSignalListener):
         result[key] = [
             DbusTagCredentialsRequested, BusType.SYSTEM
         ]
+        key = self.fqdn_key(ChangeStagingFromFolderRequested)
+        result[key] = [
+            DbusChangeStagingFromFolderRequested, BusType.SYSTEM
+        ]
         return result
 
     def parse_pythonedaartifactgittagging_TagCredentialsRequested(self, message: Message) -> TagCredentialsRequested:
@@ -80,4 +85,23 @@ class UnveilingPartnerDbusSignalListener(DbusSignalListener):
         :type event: pythonedaartifacteventgittagging.tag_credentials_requested.TagCredentialsRequested
         """
         print(f'Received TagCredentialsRequested ! {event}')
+        await self.app.accept(event)
+
+    def parse_pythonedaartifactchanges_ChangeStagingFromFolderRequested(self, message: Message) -> ChangeStagingFromFolderRequested:
+        """
+        Parses given d-bus message containing a ChangeStagingFromFolderRequested event.
+        :param message: The message.
+        :type message: dbus_next.Message
+        :return: The ChangeStagingFromFolderRequested event.
+        :rtype: pythonedaartifacteventchanges.change_staging_from_folder_requested.ChangeStagingFromFolderRequested
+        """
+        return DbusTagCredentialsRequested.parse_pythonedaartifactchanges_ChangeStagingFromFolderRequested(message)
+
+    async def listen_pythonedaartifactchanges_ChangeStagingFromFolderRequested(self, event: ChangeStagingFromFolderRequested):
+        """
+        Gets notified when a signal for a ChangeStagingFromFolderRequested event occurs.
+        :param event: The event.
+        :type event: pythonedaartifacteventchanges.change_staging_from_folder_requested.ChangeStagingFromFolderRequested
+        """
+        print(f'Received ChangeStagingFromFolderRequested ! {event}')
         await self.app.accept(event)

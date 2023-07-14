@@ -61,19 +61,19 @@ class UnveilingPartnerDbusSignalEmitter(DbusSignalEmitter):
         :rtype: Dict
         """
         result = {}
-        key = self.fqdn_key(TagCredentialsProvided)
-        result[key] = {
-                "interface": DbusTagCredentialsProvided,
-                "busType": BusType.SYSTEM,
-                "transformer": DbusTagCredentialsProvided.transform_TagCredentialsProvided,
-                "signature": DbusTagCredentialsProvided.signature_for_TagCredentialsProvided
-            }
         key = self.fqdn_key(ChangeStagingRequested)
         result[key] = {
                 "interface": DbusChangeStagingRequested,
                 "busType": BusType.SYSTEM,
                 "transformer": DbusChangeStagingRequested.transform_ChangeStagingRequested,
                 "signature": DbusChangeStagingRequested.signature_for_ChangeStagingRequested
+            }
+        key = self.fqdn_key(TagCredentialsProvided)
+        result[key] = {
+                "interface": DbusTagCredentialsProvided,
+                "busType": BusType.SYSTEM,
+                "transformer": DbusTagCredentialsProvided.transform_TagCredentialsProvided,
+                "signature": DbusTagCredentialsProvided.signature_for_TagCredentialsProvided
             }
 
         return result

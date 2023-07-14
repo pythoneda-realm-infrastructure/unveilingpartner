@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 import argparse
 from pythoneda.primary_port import PrimaryPort
+from pythonedaartifacteventchanges.change_staging_from_folder_requested import ChangeStagingFromFolderRequested
 
 class RequestChangeStagingCli(PrimaryPort):
 
@@ -46,14 +47,9 @@ class RequestChangeStagingCli(PrimaryPort):
         """
         parser = argparse.ArgumentParser(description="Request change staging")
         parser.add_argument(
-            "-c", "--change-file", required=True, help="The change file"
-        )
-        parser.add_argument(
-            "-r", "--repository-url", required=True, help="The url of the repository"
-        )
-        parser.add_argument(
-            "-b", "--branch", required=True, help="The branch in the repository"
+            "-r", "--repository-folder", required=False, help="The repository folder"
         )
         args, unknown_args = parser.parse_known_args()
 
-        await app.accept_request_change_staging(args.change_file, args.repository_url, args.branch)
+        if args.repository_folder:
+            await app.accept(ChangeStagingFromFolderRequested(args.repository_folder))
