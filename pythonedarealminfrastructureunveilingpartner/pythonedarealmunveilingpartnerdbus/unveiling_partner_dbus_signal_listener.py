@@ -84,7 +84,6 @@ class UnveilingPartnerDbusSignalListener(DbusSignalListener):
         :param event: The event.
         :type event: pythonedaartifacteventgittagging.tag_credentials_requested.TagCredentialsRequested
         """
-        print(f'Received TagCredentialsRequested ! {event}')
         await self.app.accept(event)
 
     def parse_pythonedaartifactchanges_ChangeStagingFromFolderRequested(self, message: Message) -> ChangeStagingFromFolderRequested:
@@ -103,5 +102,4 @@ class UnveilingPartnerDbusSignalListener(DbusSignalListener):
         :param event: The event.
         :type event: pythonedaartifacteventchanges.change_staging_from_folder_requested.ChangeStagingFromFolderRequested
         """
-        print(f'Received ChangeStagingFromFolderRequested ! {event}')
         await self.app.accept(event)
