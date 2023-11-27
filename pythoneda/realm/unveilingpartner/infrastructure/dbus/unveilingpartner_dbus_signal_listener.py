@@ -20,10 +20,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from dbus_next import BusType, Message
 from pythoneda.event import Event
-from pythoneda.shared.artifact_changes.events import ChangeStagingCodeExecutionPackaged
-from pythoneda.shared.artifact_changes.events.infrastructure.dbus import DbusChangeStagingCodeExecutionPackaged
+from pythoneda.shared.artifact.events.code import ChangeStagingCodeExecutionPackaged
+from pythoneda.shared.artifact.events.code.infrastructure.dbus import (
+    DbusChangeStagingCodeExecutionPackaged,
+)
 from pythoneda.infrastructure.dbus import DbusSignalListener
 from typing import Dict
+
 
 class UnveilingpartnerDbusSignalListener(DbusSignalListener):
 
@@ -38,7 +41,7 @@ class UnveilingpartnerDbusSignalListener(DbusSignalListener):
 
     Collaborators:
         - pythoneda.application.pythoneda.PythonEDA: Receives relevant domain events.
-        - pythoneda.shared.artifact_changes.events.infrastructure.dbus.DbusChangeStagingCodeExecutionPackaged
+        - pythoneda.shared.artifact.events.code.infrastructure.dbus.DbusChangeStagingCodeExecutionPackaged
     """
 
     def __init__(self):
@@ -57,7 +60,5 @@ class UnveilingpartnerDbusSignalListener(DbusSignalListener):
         """
         result = {}
         key = self.__class__.full_class_name(ChangeStagingCodeExecutionPackaged)
-        result[key] = [
-            DbusChangeStagingCodeExecutionPackaged, BusType.SYSTEM
-        ]
+        result[key] = [DbusChangeStagingCodeExecutionPackaged, BusType.SYSTEM]
         return result
