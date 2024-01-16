@@ -1,3 +1,4 @@
+# vim: set fileencoding=utf-8
 """
 pythoneda/realm/rydnr/infrastructure/dbus/rydnr_dbus_signal_listener.py
 
@@ -23,7 +24,7 @@ from pythoneda.shared.artifact.events.code import ChangeStagingCodeExecutionPack
 from pythoneda.shared.artifact.events.code.infrastructure.dbus import (
     DbusChangeStagingCodeExecutionPackaged,
 )
-from pythoneda.infrastructure.dbus import DbusSignalListener
+from pythoneda.shared.infrastructure.dbus import DbusSignalListener
 from typing import Dict
 
 
@@ -39,7 +40,7 @@ class UnveilingpartnerDbusSignalListener(DbusSignalListener):
         - Listen to signals relevant to UnveilingPartner.
 
     Collaborators:
-        - pythoneda.application.pythoneda.PythonEDA: Receives relevant domain events.
+        - pythoneda.shared.application.pythoneda.PythonEDA: Receives relevant domain events.
         - pythoneda.shared.artifact.events.code.infrastructure.dbus.DbusChangeStagingCodeExecutionPackaged
     """
 
@@ -53,7 +54,7 @@ class UnveilingpartnerDbusSignalListener(DbusSignalListener):
         """
         Retrieves the configured signal receivers.
         :param app: The PythonEDA instance.
-        :type app: pythoneda.application.PythonEDA
+        :type app: pythoneda.shared.application.PythonEDA
         :return: A dictionary with the signal name as key, and the tuple interface and bus type as the value.
         :rtype: Dict
         """
